@@ -550,6 +550,7 @@ npm run typecheck
 npm run lint
 npm test            # builds first, then runs vitest
 npm run docs:rules  # regenerate the taxonomy table in this README
+npm run docs:site   # build the documentation site into site/
 ```
 
 The test suite includes fixture pairs for each change category under
