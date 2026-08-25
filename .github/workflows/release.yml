@@ -47,6 +47,19 @@ jobs:
           fi
           echo "Publishing version $pkg"
 
+      # Fail fast and legibly when the NPM_TOKEN secret is missing or expired,
+      # rather than discovering it several minutes in at the publish step.
+      # `npm whoami` prints the account name, never the token.
+      - name: Verify registry authentication
+        run: |
+          if [ -z "${NODE_AUTH_TOKEN}" ]; then
+            echo "::error::the NPM_TOKEN repository secret is not set"
+            exit 1
+          fi
+          echo "Authenticated to the npm registry as $(npm whoami)"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       # Publishing is idempotent so that re-running a release, or tagging a
       # version that was first published by hand, is a no-op rather than a hard
       # failure on npm's EPUBLISHCONFLICT.
