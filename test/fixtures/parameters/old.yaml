@@ -1,0 +1,38 @@
+openapi: 3.0.3
+info:
+  title: Search API
+  version: 1.0.0
+paths:
+  /search:
+    parameters:
+      - name: tenant
+        in: header
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: search
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Results.

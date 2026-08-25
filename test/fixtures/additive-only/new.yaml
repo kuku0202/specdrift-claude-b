@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: Growing API
+  version: 1.1.0
+paths:
+  /widgets:
+    get:
+      operationId: listWidgets
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: string
+                  nextCursor:
+                    type: string
+        '429':
+          description: Too many requests.
+  /gadgets:
+    get:
+      operationId: listGadgets
+      responses:
+        '200':
+          description: ok

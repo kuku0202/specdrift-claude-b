@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Widgets API
+  version: 2.0.0
+paths:
+  /widgets:
+    post:
+      operationId: createWidget
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WidgetInput'
+      responses:
+        '201':
+          description: Created.
+components:
+  schemas:
+    WidgetInput:
+      type: object
+      required:
+        - name
+        - size
+        - sku
+      additionalProperties: true
+      properties:
+        name:
+          type: string
+        size:
+          type: string
+        colour:
+          type: string
+          enum: [red, blue]
+        weight:
+          type: number
+        sku:
+          type: string
+        meta:
+          type: object
+          additionalProperties: false

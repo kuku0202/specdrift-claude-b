@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: Stable API
+  version: 1.0.0
+paths:
+  /ping:
+    get:
+      operationId: ping
+      responses:
+        '200':
+          description: pong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pong'
+components:
+  schemas:
+    Pong:
+      type: object
+      required: [ok]
+      properties:
+        ok:
+          type: boolean
+        node:
+          $ref: '#/components/schemas/Node'
+    Node:
+      type: object
+      properties:
+        name:
+          type: string
+        parent:
+          $ref: '#/components/schemas/Node'

@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: Secured API
+  version: 1.0.0
+security:
+  - apiKey: []
+paths:
+  /scopes-widen:
+    get:
+      operationId: scopesWiden
+      security:
+        - oauth2: [read]
+      responses:
+        '200':
+          description: ok
+  /scheme-added:
+    get:
+      operationId: schemeAdded
+      responses:
+        '200':
+          description: ok
+  /anonymous-withdrawn:
+    get:
+      operationId: anonymousWithdrawn
+      security:
+        - apiKey: []
+        - {}
+      responses:
+        '200':
+          description: ok
+  /alternative-removed:
+    get:
+      operationId: alternativeRemoved
+      security:
+        - apiKey: []
+        - oauth2: [read]
+      responses:
+        '200':
+          description: ok
+  /scopes-narrow:
+    get:
+      operationId: scopesNarrow
+      security:
+        - oauth2: [read, write]
+      responses:
+        '200':
+          description: ok
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+    mfa:
+      type: apiKey
+      name: X-Mfa-Token
+      in: header
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/token
+          scopes:
+            read: Read access
+            write: Write access

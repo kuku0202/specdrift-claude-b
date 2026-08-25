@@ -1,0 +1,73 @@
+{
+  "name": "@yuesu4/specdrift-claude-b",
+  "version": "0.1.0",
+  "description": "Diff two OpenAPI 3.x specifications and report what changed, with breaking changes called out separately from additive ones.",
+  "keywords": [
+    "openapi",
+    "swagger",
+    "diff",
+    "breaking-changes",
+    "api",
+    "cli",
+    "ci"
+  ],
+  "license": "MIT",
+  "author": "kuku0202",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuku0202/specdrift-claude-b.git"
+  },
+  "homepage": "https://kuku0202.github.io/specdrift-claude-b/",
+  "bugs": {
+    "url": "https://github.com/kuku0202/specdrift-claude-b/issues"
+  },
+  "type": "module",
+  "bin": {
+    "specdrift": "dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.11"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node scripts/chmod-bin.mjs",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "docs:rules": "node scripts/update-rules-table.mjs",
+    "docs:site": "node scripts/build-site.mjs",
+    "pretest": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepack": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "picocolors": "^1.1.1",
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.17.0",
+    "marked": "^15.0.12",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.1",
+    "vitest": "^4.1.11"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
