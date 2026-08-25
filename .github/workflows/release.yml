@@ -47,7 +47,35 @@ jobs:
           fi
           echo "Publishing version $pkg"
 
+      # Publishing is idempotent so that re-running a release, or tagging a
+      # version that was first published by hand, is a no-op rather than a hard
+      # failure on npm's EPUBLISHCONFLICT.
+      - name: Check whether this version is already on the registry
+        id: published
+        run: |
+          name="$(node -p "require('./package.json').name")"
+          version="$(node -p "require('./package.json').version")"
+          if npm view "$name@$version" version >/dev/null 2>&1; then
+            echo "already=true" >> "$GITHUB_OUTPUT"
+            echo "$name@$version is already published; nothing to do."
+          else
+            echo "already=false" >> "$GITHUB_OUTPUT"
+            echo "$name@$version is not on the registry yet."
+          fi
+
       - name: Publish
+        if: steps.published.outputs.already == 'false'
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Summary
+        run: |
+          name="$(node -p "require('./package.json').name")"
+          version="$(node -p "require('./package.json').version")"
+          if [ "${{ steps.published.outputs.already }}" = "true" ]; then
+            echo "Skipped publish: $name@$version was already on the registry." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Published $name@$version to npm." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "https://www.npmjs.com/package/$name/v/$version" >> "$GITHUB_STEP_SUMMARY"
