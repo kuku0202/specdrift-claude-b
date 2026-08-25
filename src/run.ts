@@ -1,6 +1,6 @@
 import { parseArgs } from 'node:util';
 
-import { cacheStats, clearCache } from './cache.js';
+import { cacheStats, clearCache, type EnvLike } from './cache.js';
 import { diffDocuments } from './diff/index.js';
 import { loadSpec, SpecLoadError } from './loader.js';
 import { renderJson } from './report/json.js';
@@ -16,7 +16,7 @@ export interface Io {
   stderr: (text: string) => void;
   /** Whether stdout is a terminal, which decides default colouring. */
   isTTY: boolean;
-  env: NodeJS.ProcessEnv;
+  env: EnvLike;
 }
 
 /** Process exit codes, as documented in the README. */

@@ -3,6 +3,14 @@ import { mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { homedir, tmpdir } from 'node:os';
 import { join } from 'node:path';
 
+/**
+ * The subset of `process.env` this module reads.
+ *
+ * Spelled structurally rather than as `NodeJS.ProcessEnv` so the published type
+ * declarations do not oblige a consumer to have `@types/node` installed.
+ */
+export type EnvLike = Record<string, string | undefined>;
+
 /** How long a cached document is served without revalidating, in ms. */
 export const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -30,7 +38,7 @@ export interface CacheEntry {
  * back to the system temp directory when there is no usable home directory
  * (some CI containers).
  */
-export function cacheDir(env: NodeJS.ProcessEnv = process.env): string {
+export function cacheDir(env: EnvLike = process.env): string {
   const explicit = env['SPECDRIFT_CACHE_DIR'];
   if (explicit) return explicit;
   const xdg = env['XDG_CACHE_HOME'];

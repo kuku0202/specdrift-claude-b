@@ -52,6 +52,7 @@ export {
   DEFAULT_TTL_MS,
   type CacheEntry,
   type CacheMeta,
+  type EnvLike,
 } from './cache.js';
 
 export { RefResolver, pointer, pointerJoin } from './refs.js';
